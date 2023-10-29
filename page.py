@@ -1,9 +1,10 @@
 import block
 
 class Page:
-    blocks = []
-    styles = []
-    googleFonts  = []
+    def __init__(self) -> None:
+        self.blocks = []
+        self.styles = []
+        self.googleFonts  = []
 
     def addBlock(self, newBlock):
         self.blocks.append(newBlock)

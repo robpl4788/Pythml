@@ -1,8 +1,9 @@
 
 
 class Block:
-    backgroundColor = [5, 5, 5]
-    classes = []
+    def __init__(self) -> None:
+        self.backgroundColor = [5, 5, 5]
+        self.classes = []
 
     def addStyle(self, style):
         self.classes.append(style.getClassName())

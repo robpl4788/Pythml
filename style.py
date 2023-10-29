@@ -1,10 +1,10 @@
 
 class Style:
-    usedClasses = []
-    universal = False
-    properties = {}
 
     def __init__(self) -> None:
+        self.usedClasses = []
+        self.properties = {}
+
         if len(self.usedClasses) == 0:
             self.className = "a0"
         else:

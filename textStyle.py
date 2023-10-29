@@ -4,10 +4,11 @@ from constants import lengthUnits
 
 
 class TextStyle(style.Style):
+    def __init__(self) -> None:
+        super().__init__()
 
-
-    shadows = []
-    fonts = []
+        self.shadows = []
+        self.fonts = []
 
     
 

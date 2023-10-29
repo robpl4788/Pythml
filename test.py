@@ -12,14 +12,16 @@ parStyle = pythml.TextStyle()
 parStyle.setTextColor(pythml.Color(255, 0, 0))
 parStyle.addShadow(2, 2, pythml.Color(255, 0, 100), 5)
 parStyle.addFont("Audiowide")
-parStyle.setFontSize(20, "px")
+parStyle.setFontSize(30, "px")
 parStyle.setLetterSpacing(10)
 
 
 par = pythml.ParagraphElement()
 
-par.addStyle(parStyle)
+# par.addStyle(parStyle)
 par.addText("IDK")
+par.addText(" other", parStyle)
+par.addLink(" link?", "https://www.firestorm.industries")
 
 test.addBlock(par)
 test.addBlock(par)
