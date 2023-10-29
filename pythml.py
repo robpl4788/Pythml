@@ -1,6 +1,8 @@
 from page import *
 from textElement import *
-from textStyle import *
+from imageElement import *
+from style import *
 from color import *
+from imageElement import *
 
 

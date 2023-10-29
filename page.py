@@ -1,10 +1,11 @@
 import element
 
 class Page:
-    def __init__(self) -> None:
+    def __init__(self, imageFolderLocation) -> None:
         self.blocks = []
         self.styles = []
         self.googleFonts  = []
+        self.imageFolderLocation = imageFolderLocation #Location relative to html output location
 
     def addBlock(self, newBlock):
         self.blocks.append(newBlock)

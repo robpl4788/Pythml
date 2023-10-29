@@ -2,24 +2,27 @@
 
 class Element:
     def __init__(self) -> None:
-        self.backgroundColor = [5, 5, 5]
-        self.classes = []
+        self.styles = []
 
     def addStyle(self, style):
-        self.classes.append(style.getClassName())
+        if style.getClassName() == None:
+            print(":()")
+            print(style)
+            a = "1 " + 1
+        self.styles.append(style.getClassName())
     
-    def getClasses(self):
-        if len(self.classes) == 0:
+    def getStyles(self):
+        if len(self.styles) == 0:
             return ""
         
         output = ' class="'
         firstLoop = True
-        for className in self.classes:
+        for style in self.styles:
             if firstLoop:
                 firstLoop = False
             else:
                 output += " "
-            output += className
+            output += style
         
         output += '"'
 

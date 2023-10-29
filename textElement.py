@@ -14,16 +14,16 @@ class TextElement(element.Element):
         self.content = []
         self.links = []
         self.targets = []
-        self.classNames = []
+        self.textStyles = []
 
     def addText(self, newText : str, style = None):
         self.content.append(str(newText))
         self.links.append(None)
         self.targets.append(None)
         if style != None:
-            self.classNames.append(style.getClassName())
+            self.textStyles.append(style.getClassName())
         else:
-            self.classNames.append(None)
+            self.textStyles.append(None)
 
     def addLink(self, newText, newLink, target = None, style = None):
         self.content.append(str(newText))
@@ -36,9 +36,9 @@ class TextElement(element.Element):
             self.targets.append(None)
 
         if style != None:
-            self.classNames.append(style.getClassName())
+            self.textStyles.append(style.getClassName())
         else:
-            self.classNames.append(None)
+            self.textStyles.append(None)
         
 
 
@@ -46,7 +46,7 @@ class TextElement(element.Element):
     def compileHTML(self):
         html = "<"
         html += self.type
-        html += self.getClasses()
+        html += self.getStyles()
         html += ">"
 
         for i in range(len(self.content)):
@@ -58,18 +58,18 @@ class TextElement(element.Element):
                     html += ' target="'
                     html += self.targets[i]
                     html += '"'
-                if self.classNames[i] != None:
+                if self.textStyles[i] != None:
                     html += ' class="'
-                    html += self.classNames[i]
+                    html += self.textStyles[i]
                     html += '"'
                 html += '>'
 
                 html += self.content[i]
                 html += "</a>"
             
-            elif self.classNames[i] != None:
+            elif self.textStyles[i] != None:
                 html += '<span class="'
-                html += self.classNames[i]
+                html += self.textStyles[i]
                 html += '">'
                 html += self.content[i]
                 html += "</span>"

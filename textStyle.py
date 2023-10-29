@@ -1,43 +1,13 @@
-import style
 import color
 from constants import lengthUnits
+from shadows import Shadow
 
 
-class TextStyle(style.Style):
-    def __init__(self) -> None:
-        super().__init__()
-
+class TextStyle:
+    def __init__(self, properties) -> None:
+        self.properties = properties
         self.shadows = []
         self.fonts = []
-
-    
-
-    def compileCSS(self):
-        if len(self.properties) == 0 and len(self.shadows) == 0:
-            return ""
-
-        output = self.beginCSScompile()
-        
-        if len(self.shadows) != 0:
-            output += "\ttext-shadow: "
-            for shadow in self.shadows:
-                output += str(shadow)
-            output += "\n"
-        
-        if len(self.fonts) != 0:
-            output += "\tfont-family: "
-            firstLoop = True
-            for font in self.fonts:
-                if firstLoop:
-                    firstLoop = False
-                else:
-                    output += ", "
-                output += font
-
-            output += ";\n"
-
-        output += "}\n\n"
-        return output
     
 
 
@@ -84,12 +54,11 @@ class TextStyle(style.Style):
         self.properties["verticalAlign"] = "\tvertical-alignment: super;"
     
     def setTextHeight(self, length, unit = "px"):
-        if unit in lengthUnits:
-            self.properties["verticalAlign"] = "\tvertical-alignment: " + str(length) + unit + ";\n"
-        else:
-            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
-            self.properties["verticalAlign"] = "\tvertical-alignment: " + str(length) + "px;\n"
-
+        if unit not in lengthUnits:
+            print("WARNING: " + str(unit) + " is not a valid length to set text height, defaulting to pixels")
+            unit = "px"
+        self.properties["verticalAlign"] = "\tvertical-alignment: " + str(length) + unit + ";\n"
+    
     #Lines
     def setOverline(self):
         self.properties["overLine"] = "\ttext-decoration-line: overline;\n"
@@ -123,12 +92,10 @@ class TextStyle(style.Style):
         self.properties["textLineColor"] = "\ttext-decoration-color: " + str(color) + ";"
     
     def setLineThickness(self, length, unit = "px"):
-        if unit in lengthUnits:
-            self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(length) + unit + ";\n"
-        else:
-            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
-            self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(length) + "px;\n"
-
+        if unit not in lengthUnits:
+            print("WARNING: " + str(unit) + " is not a valid length to set line thickness, defaulting to pixels")
+            unit = "px"
+        self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(length) + unit + ";\n"
 
 
 
@@ -147,26 +114,23 @@ class TextStyle(style.Style):
         self.properties["textIndent"] = "\ttext-indent: " + str(pixels) + "px;\n"
     
     def setLetterSpacing(self, length, unit = "px"):
-        if unit in lengthUnits:
-            self.properties["letterSpacing"] = "\tletter-spacing: " + str(length) + unit + ";\n"
-        else:
-            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
-            self.properties["letterSpacing"] = "\tletter-spacing: " + str(length) + "px;\n"
+        if unit not in lengthUnits:
+            print("WARNING: " + str(unit) + " is not a valid length to set letter spacing, defaulting to pixels")
+            unit = "px"
+        self.properties["letterSpacing"] = "\tletter-spacing: " + str(length) + unit + ";\n"
 
 
     def setLineSpacing(self, length, unit = "px"):
-        if unit in lengthUnits:
-            self.properties["lineHeight"] = "\tline-Height: " + str(length) + unit + ";\n"
-        else:
-            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
-            self.properties["lineHeight"] = "\tline-Height: " + str(length) + "px;\n"
+        if unit not in lengthUnits:
+            print("WARNING: " + str(unit) + " is not a valid length to set line spacing, defaulting to pixels")
+            unit = "px"
+        self.properties["lineHeight"] = "\tline-Height: " + str(length) + unit + ";\n"
 
     def setWordSpacing(self, length, unit = "px"):
-        if unit in lengthUnits:
-            self.properties["wordSpacing"] = "\ttword-spacing: " + str(length) + unit + ";\n"
-        else:
-            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
-            self.properties["wordSpacing"] = "\ttword-spacing: " + str(length) + "px;\n"
+        if unit not in lengthUnits:
+            print("WARNING: " + str(unit) + " is not a valid length to set word spacing, defaulting to pixels")
+            unit = "px"
+        self.properties["wordSpacing"] = "\ttword-spacing: " + str(length) + unit + ";\n"
     
 
     #Font - Order added is priority, with first being highest
@@ -174,31 +138,11 @@ class TextStyle(style.Style):
         self.fonts.append(str(fontName))
     
     def setFontSize(self, length, unit = "px"):
-        if unit in lengthUnits:
-            self.properties["fontSize"] = "\tfont-size: " + str(length) + unit + ";\n"
-        else:
-            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
-            self.properties["fontSize"] = "\tfont-size: " + str(length) + "px;\n"
+        if unit not in lengthUnits:
+            print("WARNING: " + str(unit) + " is not a valid length to set font size, defaulting to pixels")
+            unit = "px"
+        self.properties["fontSize"] = "\tfont-size: " + str(length) + unit + ";\n"
 
     #Shadows
-    def addShadow(self, horizontal, vertical, color, blur):
-        self.shadows.append(TextShadow(horizontal, vertical, color, blur))
-
-class TextShadow:
-    def __init__(self, horizontal, vertical, color = color.black, blur = 0):
-        self.horizontal = horizontal
-        self.vertical = vertical
-        self.color = color
-        self.blur =  blur
-    
-    def __str__(self):
-        output = " "
-        output += str(self.horizontal)
-        output += "px "
-        output += str(self.vertical)
-        output += "px "
-        output += str(self.blur)
-        output += "px "
-        output += str(self.color)
-        output += ";"
-        return output
+    def addTextShadow(self, horizontal, vertical, color, blur):
+        self.shadows.append(Shadow(horizontal, vertical, color, blur))
