@@ -4,13 +4,21 @@ htmlLocation = "test.html"
 cssLocation = "test.css"
 
 test = pythml.Page()
+test.addGoogleFont("Audiowide")
+test.addGoogleFont("Roboto")
 
-parStyle = pythml.TextStyle("p")
+parStyle = pythml.TextStyle()
+# parStyle.addElementSelector("p")
 parStyle.setTextColor(pythml.Color(255, 0, 0))
+parStyle.addShadow(2, 2, pythml.Color(255, 0, 100), 5)
+parStyle.addFont("Audiowide")
+parStyle.setFontSize(20, "px")
+parStyle.setLetterSpacing(10)
 
-par = pythml.ParagraphBlock()
 
+par = pythml.ParagraphElement()
 
+par.addStyle(parStyle)
 par.addText("IDK")
 
 test.addBlock(par)

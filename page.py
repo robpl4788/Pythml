@@ -3,12 +3,16 @@ import block
 class Page:
     blocks = []
     styles = []
+    googleFonts  = []
 
     def addBlock(self, newBlock):
         self.blocks.append(newBlock)
     
     def addStyle(self, newStyle):
         self.styles.append(newStyle)
+    
+    def addGoogleFont(self, fontName):
+        self.googleFonts.append(str(fontName))
 
     def compileHTML(self, stylesheet = None):
         html = """<!DOCTYPE html>
@@ -38,6 +42,13 @@ class Page:
     
     def compileCSS(self):
         output = ""
+
+        for font in self.googleFonts:
+            output += "@import url('https://fonts.googleapis.com/css2?family="
+            output += font
+            output += "&display=swap');\n"
+        output += "\n"
+
         for style in self.styles:
             output += style.compileCSS()
         

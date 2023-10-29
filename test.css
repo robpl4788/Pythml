@@ -1,4 +1,11 @@
-p {
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.a0 {
 	color: rgb(255, 0, 0);
+	font-size: 20px;
+	letter-spacing: 10px;
+	text-shadow:  2px 2px 5px rgb(255, 0, 100);
+	font-family: Audiowide;
 }
 

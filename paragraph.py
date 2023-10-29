@@ -8,7 +8,9 @@ class ParagraphElement(block.Block):
     
 
     def compileHTML(self):
-        html = "<p>"
+        html = "<p"
+        html += self.getClasses()
+        html += ">"
 
         for text in self.content:
             html += text

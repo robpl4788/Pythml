@@ -1,31 +1,43 @@
 import style
 import color
+from constants import lengthUnits
 
-enumerate
 
 class TextStyle(style.Style):
-    properties = {}
 
 
     shadows = []
+    fonts = []
+
+    
 
     def compileCSS(self):
         if len(self.properties) == 0 and len(self.shadows) == 0:
             return ""
-        
-        output = self.selector + " {\n"
-        for property in self.properties:
-            output += self.properties[property]
+
+        output = self.beginCSScompile()
         
         if len(self.shadows) != 0:
-            output += "text-shadow: "
+            output += "\ttext-shadow: "
             for shadow in self.shadows:
                 output += str(shadow)
             output += "\n"
         
+        if len(self.fonts) != 0:
+            output += "\tfont-family: "
+            firstLoop = True
+            for font in self.fonts:
+                if firstLoop:
+                    firstLoop = False
+                else:
+                    output += ", "
+                output += font
+
+            output += ";\n"
+
         output += "}\n\n"
-        
         return output
+    
 
 
 
@@ -70,12 +82,13 @@ class TextStyle(style.Style):
     def setSuperScript(self):
         self.properties["verticalAlign"] = "\tvertical-alignment: super;"
     
-    def setHeightPixel(self, pixels):
-        self.properties["verticalAlign"] = "\tvertical-alignment: " + str(pixels) + ";"
+    def setTextHeight(self, length, unit = "px"):
+        if unit in lengthUnits:
+            self.properties["verticalAlign"] = "\tvertical-alignment: " + str(length) + unit + ";\n"
+        else:
+            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
+            self.properties["verticalAlign"] = "\tvertical-alignment: " + str(length) + "px;\n"
 
-    def setHeightPercentage(self, percentage):
-        self.properties["verticalAlign"] = "\tvertical-alignment: " + str(percentage) + ";"
-    
     #Lines
     def setOverline(self):
         self.properties["overLine"] = "\ttext-decoration-line: overline;\n"
@@ -85,6 +98,12 @@ class TextStyle(style.Style):
     
     def setStrikeThrough(self):
         self.properties["strikeThrough"] = "\ttext-decoration-line: line-through;\n"
+
+    def setNoLines(self):
+        self.properties["underLine"] = "\ttext-decoration-line: none;\n"
+        self.properties["overLine"] = ""
+        self.properties["strikeThrough"] = ""
+
 
     #Line Styles
     def setLineStyleDouble(self):
@@ -102,40 +121,67 @@ class TextStyle(style.Style):
     def setLineColor(self, color):
         self.properties["textLineColor"] = "\ttext-decoration-color: " + str(color) + ";"
     
-    def setLineThicknessPixels(self, pixels):
-        self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(pixels) + "px;\n"
-    
-    def setLineThicknessPercent(self, percent):
-        self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(percent) + "%;\n"
+    def setLineThickness(self, length, unit = "px"):
+        if unit in lengthUnits:
+            self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(length) + unit + ";\n"
+        else:
+            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
+            self.properties["textLineThickness"] = "\ttext-decoration-thickness: " + str(length) + "px;\n"
+
+
 
 
     #Text transformations
     def setUppercase(self):
-        self.properties["textTransform"] = "\ntext-transform: uppercase;"
+        self.properties["textTransform"] = "\ttext-transform: uppercase;"
     
     def setLowercase(self):
-        self.properties["textTransform"] = "\ntext-transform: lowercase;"
+        self.properties["textTransform"] = "\ttext-transform: lowercase;"
     
     def setCapitalize(self):
-        self.properties["textTransform"] = "\ntext-transform: capitalize;"
+        self.properties["textTransform"] = "\ttext-transform: capitalize;"
     
-    #Text Spacing - More units theorettically available
+    #Text Spacing
     def setIndent(self, pixels):
-        self.properties["textIndent"] = "\ntext-indent: " + str(pixels) + "px;\n"
+        self.properties["textIndent"] = "\ttext-indent: " + str(pixels) + "px;\n"
     
-    def setLetterSpacing(self, pixels):
-        self.properties["letterSpacing"] = "\nletter-spacing: " + str(pixels) + "px;\n"
+    def setLetterSpacing(self, length, unit = "px"):
+        if unit in lengthUnits:
+            self.properties["letterSpacing"] = "\tletter-spacing: " + str(length) + unit + ";\n"
+        else:
+            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
+            self.properties["letterSpacing"] = "\tletter-spacing: " + str(length) + "px;\n"
 
-    def setLineSpacing(self, spacing):
-        self.properties["lineHeight"] = "\nline-Height: " + str(spacing) + ";\n"
 
-    def setWordSpacing(self, pixels):
-        self.properties["wordSpacing"] = "\word-spacing: " + str(pixels) + "px;\n"
+    def setLineSpacing(self, length, unit = "px"):
+        if unit in lengthUnits:
+            self.properties["lineHeight"] = "\tline-Height: " + str(length) + unit + ";\n"
+        else:
+            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
+            self.properties["lineHeight"] = "\tline-Height: " + str(length) + "px;\n"
+
+    def setWordSpacing(self, length, unit = "px"):
+        if unit in lengthUnits:
+            self.properties["wordSpacing"] = "\ttword-spacing: " + str(length) + unit + ";\n"
+        else:
+            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
+            self.properties["wordSpacing"] = "\ttword-spacing: " + str(length) + "px;\n"
     
 
-    #Font?
+    #Font - Order added is priority, with first being highest
+    def addFont(self, fontName):
+        self.fonts.append(str(fontName))
+    
+    def setFontSize(self, length, unit = "px"):
+        if unit in lengthUnits:
+            self.properties["fontSize"] = "\tfont-size: " + str(length) + unit + ";\n"
+        else:
+            print("WARNING: " + str(unit) + " is not a valid length, defaulting to pixels")
+            self.properties["fontSize"] = "\tfont-size: " + str(length) + "px;\n"
 
-    #Shadow?
+    #Shadows
+    def addShadow(self, horizontal, vertical, color, blur):
+        self.shadows.append(TextShadow(horizontal, vertical, color, blur))
 
 class TextShadow:
     def __init__(self, horizontal, vertical, color = color.black, blur = 0):
@@ -144,14 +190,14 @@ class TextShadow:
         self.color = color
         self.blur =  blur
     
-    def compileCSS(self):
+    def __str__(self):
         output = " "
-        output += self.horizontal
+        output += str(self.horizontal)
         output += "px "
-        output += self.vertical
+        output += str(self.vertical)
         output += "px "
-        output += self.blur
+        output += str(self.blur)
         output += "px "
         output += str(self.color)
         output += ";"
-        return 
+        return output
