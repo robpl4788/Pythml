@@ -2,23 +2,32 @@ import block
 
 class Page:
     blocks = []
+    styles = []
 
-    def addBlock(self, newBlock : block.Block):
+    def addBlock(self, newBlock):
         self.blocks.append(newBlock)
+    
+    def addStyle(self, newStyle):
+        self.styles.append(newStyle)
 
-    def compileHTML(self):
+    def compileHTML(self, stylesheet = None):
         html = """<!DOCTYPE html>
         <html>
-        <head>
-        <title>Page Title</title>
+        <head>\n"""
+
+        if stylesheet != None:
+            html += '<link rel="stylesheet" href = "'
+            html += stylesheet
+            html += '">\n'
+
+        html += """<title>Page Title</title>
         </head>
-        <body>
-        """
+        <body> \n"""
 
 
         
         for block in self.blocks:
-            html += block.compile()
+            html += block.compileHTML()
             html += "\n"
         
         html += """
@@ -26,3 +35,11 @@ class Page:
         </html>"""
         
         return html
+    
+    def compileCSS(self):
+        output = ""
+        for style in self.styles:
+            output += style.compileCSS()
+        
+        return output
+
