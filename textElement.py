@@ -1,9 +1,16 @@
-import block
+import element
 from constants import validLinkTargets
+from constants import validTextElements
 
-class ParagraphElement(block.Block):
-    def __init__(self) -> None:
+class TextElement(element.Element):
+    def __init__(self, type) -> None:
         super().__init__()
+        if type in validTextElements:
+            self.type = type
+        else:
+            print("WARNING: " + str(type) + " is not a valid text element type, using p")
+            self.type = "p"
+
         self.content = []
         self.links = []
         self.targets = []
@@ -37,7 +44,8 @@ class ParagraphElement(block.Block):
 
 
     def compileHTML(self):
-        html = "<p"
+        html = "<"
+        html += self.type
         html += self.getClasses()
         html += ">"
 
@@ -70,21 +78,38 @@ class ParagraphElement(block.Block):
                 html += self.content[i]
                 
 
-        html += "</p>"
+        html += "</"
+        html += self.type
+        html += ">"
 
         return html
 
-class ParagraphBlock:
+class ParagraphElement(TextElement):
     def __init__(self) -> None:
-        self.paragrah = ParagraphElement()
+        super().__init__("p")
 
-    def addText(self, newText : str, style = None):
-        self.paragrah.addText(newText, style)
-    
-    def addLink(self, newText :str, newLink : str, target = None, style = None):
-        self.paragrah.addLink(newText, newLink, target, style)
-    
-    def compileHTML(self):
-        return self.paragrah.compileHTML()
+class Header1Element(TextElement):
+    def __init__(self) -> None:
+        super().__init__("h1")
+
+class Header2Element(TextElement):
+    def __init__(self) -> None:
+        super().__init__("h2")
+
+class Header3Element(TextElement):
+    def __init__(self) -> None:
+        super().__init__("h3")
+
+class Header4Element(TextElement):
+    def __init__(self) -> None:
+        super().__init__("h4")
+
+class Header5Element(TextElement):
+    def __init__(self) -> None:
+        super().__init__("h5")
+
+class Header6Element(TextElement):
+    def __init__(self) -> None:
+        super().__init__("h6")
 
 

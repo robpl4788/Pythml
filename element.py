@@ -1,6 +1,6 @@
 
 
-class Block:
+class Element:
     def __init__(self) -> None:
         self.backgroundColor = [5, 5, 5]
         self.classes = []

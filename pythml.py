@@ -1,5 +1,5 @@
 from page import *
-from paragraph import *
+from textElement import *
 from textStyle import *
 from color import *
 
