@@ -6,8 +6,6 @@ class Element:
 
     def addStyle(self, style):
         if style.getClassName() == None:
-            print(":()")
-            print(style)
             a = "1 " + 1
         self.styles.append(style.getClassName())
     

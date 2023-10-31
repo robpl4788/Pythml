@@ -1,10 +1,13 @@
 import element
 from constants import validLinkTargets
-from constants import validTextElements
+
+
 
 class TextElement(element.Element):
     def __init__(self, type) -> None:
         super().__init__()
+        validTextElements = ["p", "h1", "h2", "h3", "h4", "h5", "h6"]
+
         if type in validTextElements:
             self.type = type
         else:

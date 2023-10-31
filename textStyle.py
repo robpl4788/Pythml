@@ -4,12 +4,38 @@ from shadows import Shadow
 
 
 class TextStyle:
-    def __init__(self, properties) -> None:
-        self.properties = properties
+    def __init__(self) -> None:
+        self.properties = {}
         self.shadows = []
         self.fonts = []
-    
 
+    
+    def compileCSS(self):
+        output = ""
+        
+        if len(self.shadows) != 0:
+            output += "\ttext-shadow: "
+            for shadow in self.shadows:
+                output += str(shadow)
+            output += "\n"
+        
+        if len(self.fonts) != 0:
+            output += "\tfont-family: "
+            firstLoop = True
+            for font in self.fonts:
+                if firstLoop:
+                    firstLoop = False
+                else:
+                    output += ", "
+                output += font
+
+            output += ";\n"
+        
+        for property in self.properties:
+            output += self.properties[property]
+
+
+        return output
 
 
     def setTextColor(self, color):

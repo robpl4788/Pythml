@@ -1,4 +1,5 @@
 import textStyle
+import boxStyle
 from constants import lengthUnits
 from shadows import Shadow
 import color
@@ -8,7 +9,9 @@ class Style:
 
     def __init__(self) -> None:
         self.properties = {}
-        self.text = textStyle.TextStyle(self.properties)
+        self.text = textStyle.TextStyle()
+        self.box = boxStyle.BoxStyle()
+
 
         if len(self.usedClasses) == 0:
             self.className = "a0"
@@ -19,8 +22,6 @@ class Style:
         self.selectors = [self.className]
 
     def compileCSS(self):
-        if len(self.properties) == 0 and len(self.text.shadows) == 0 and len(self.text.fonts) == 0:
-            return ""
         output = ""
 
         firstLoop = True
@@ -33,26 +34,10 @@ class Style:
         
         output += " {\n"
         
-        if len(self.text.shadows) != 0:
-            output += "\ttext-shadow: "
-            for shadow in self.text.shadows:
-                output += str(shadow)
-            output += "\n"
-        
-        if len(self.text.fonts) != 0:
-            output += "\tfont-family: "
-            firstLoop = True
-            for font in self.text.fonts:
-                if firstLoop:
-                    firstLoop = False
-                else:
-                    output += ", "
-                output += font
-
-            output += ";\n"
-        
         for property in self.properties:
             output += self.properties[property]
+        
+        output += self.text.compileCSS()
 
         output += "}\n\n"        
         return output
@@ -103,23 +88,9 @@ class Style:
         self.properties["maxHeight"] = "\tmax-height: " + str(length) + unit + ";\n"
     
 
-    def setPadding(self, top, left = None, bottom = None, right = None, unit = "px"):
-        if unit not in lengthUnits:
-            print("WARNING: " + str(unit) + " is not a valid length to set padding, defaulting to pixels")
-            unit = "px"
-        if left == None:
-            left = top
-        if bottom == None:
-            bottom = top
-        if right == None:
-            right = left
-        instruction = "\tpadding: "
-        instruction += str(top) + unit
-        instruction += " " + str(right) + unit
-        instruction += " " + str(bottom) + unit
-        instruction += " " + str(left) + unit + ";"
-
-        self.properties["padding"] = instruction
+    def setBackgroundColor(self, color):
+        self.properties["backgroundColor"] = "\tbackground-color: " + str(color)
+    
 
 
 class Shadow:
